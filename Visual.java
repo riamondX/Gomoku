@@ -173,7 +173,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	 */
 	private void blackFlip() {
 		ImageIcon onBlack = new ImageIcon("images/onBlack.png");
-		System.out.println("black flip");
+		//System.out.println("black flip");
 		for (int i = 0; i <= 18; i++) {
 			for (int j = 0; j <= 18; j++) {
 				if (theBoard.slotAvaliable(i, j)) {
@@ -189,7 +189,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	 */
 	private void whiteFlip() {
 		ImageIcon onWhite = new ImageIcon("images/onWhite.png");
-		System.out.println("white flip");
+		//System.out.println("white flip");
 		for (int i = 0; i <= 18; i++) {
 			for (int j = 0; j <= 18; j++) {
 				if (theBoard.slotAvaliable(i, j)) {
@@ -237,7 +237,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		// if new Game was pressed 
 		if (e.getSource() == newGame)
 		{
-			System.out.println("==new game==");
+			//System.out.println("==new game==");
 			// reset the board panel
 			theBoard = new Board();
 			
@@ -298,7 +298,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 			}
 
 
-			System.out.println("white: "+white+" black: "+black);
+			//System.out.println("white: "+white+" black: "+black);
 			// black turn
 			if(black && !white)
 			{
