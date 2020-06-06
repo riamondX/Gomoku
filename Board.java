@@ -1,4 +1,4 @@
-package gomoku1;
+//package gomoku1;
 
 /**
  * @author Riven Xu
