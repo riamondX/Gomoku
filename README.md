@@ -1,6 +1,6 @@
 # Gomoku
 
-This is a so far working 95% Gomoku game. If you don't know how to play it...let's call it a "five in a row".
+This is a so far working Gomoku game. If you don't know how to play it...let's call it a "five in a row".
 
 ## Language: Java
 
