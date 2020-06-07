@@ -63,6 +63,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	private boolean black;
 	private boolean white;
 
+	private boolean initGame;
+
 	private Board theBoard = new Board();
 
 	/**
@@ -87,7 +89,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// a certain size of the window
-		f.setSize(720, 800);
+		f.setSize(900, 800);
 		
 		f.setVisible(true);
 
@@ -120,13 +122,13 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 
 		// sp2.setLayout(null);
 
-		p.setBounds(15, 80, 670, 670); // <=== position of panel1
+		p.setBounds(15, 10, 670, 670); // <=== position of panel1
 		p.setBorder(BorderFactory.createTitledBorder("board")); // border
 
-		sp1.setBounds(15, 10, 500, 70); // <=== position of panel2
+		sp1.setBounds(700, 10, 150, 220); // <=== position of panel2
 		sp1.setBorder(BorderFactory.createTitledBorder("Control")); // border
 
-		sp2.setBounds(520, 10, 150, 50); // <=== position of panel3
+		sp2.setBounds(700, 260, 150, 50); // <=== position of panel3
 		sp2.setBorder(BorderFactory.createTitledBorder("Condition")); // border
 
 		// call the following methods so that they will
@@ -162,9 +164,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		f.add(sp1);
 		f.add(sp2);
 		f.add(sp3);
-
-		newGame.doClick();
-		newGame.doClick();
+		
+		initGame = true;
 	}
 
 	/**
@@ -221,7 +222,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 
 			// the help message
 			text1.setText("Gomoku is basically a enlarged 'tic tac toe'." +
-						"\n" +"Get five in a row(verticle or horizontal) to win!");
+						"\n" +"Get five in a row(vertical or horizontal or diagonal) to win!");
 			
 			fHelp.add(text1);
 			fHelp.pack();
@@ -243,8 +244,18 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 			
 			// black starts
 			declareWin.setText("Black Turn");
-			py1.setText("Player1");
-			py2.setText("Player2");
+			if(name1.getText().isEmpty())
+			{
+				py1.setText("player1");
+			}
+			else
+				py1.setText(name1.getText());
+			if(name2.getText().isEmpty())
+			{
+				py2.setText("player2");
+			}
+			else			
+				py2.setText(name2.getText());
 			
 			// set player name if given in the textfield
 			p1 = new Player(b,py1.getText());
@@ -259,6 +270,11 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 					boardButton[i][j].setIcon(normal);
 					boardButton[i][j].addActionListener(this);
 				}
+			}
+			if(initGame)
+			{
+				initGame = false;
+				newGame.doClick();
 			}
 		}
 		
