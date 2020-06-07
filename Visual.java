@@ -1,4 +1,4 @@
-package gomoku1;
+//package gomoku1;
 
 import java.awt.*;
 
@@ -63,6 +63,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	private boolean black;
 	private boolean white;
 
+	private boolean initGame;
+
 	private Board theBoard = new Board();
 
 	/**
@@ -87,7 +89,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// a certain size of the window
-		f.setSize(720, 800);
+		f.setSize(900, 800);
 		
 		f.setVisible(true);
 
@@ -120,13 +122,13 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 
 		// sp2.setLayout(null);
 
-		p.setBounds(15, 80, 670, 670); // <=== position of panel1
+		p.setBounds(15, 10, 670, 670); // <=== position of panel1
 		p.setBorder(BorderFactory.createTitledBorder("board")); // border
 
-		sp1.setBounds(15, 10, 500, 70); // <=== position of panel2
-		sp1.setBorder(BorderFactory.createTitledBorder("Panel2")); // border
+		sp1.setBounds(700, 10, 150, 220); // <=== position of panel2
+		sp1.setBorder(BorderFactory.createTitledBorder("Control")); // border
 
-		sp2.setBounds(520, 10, 150, 50); // <=== position of panel3
+		sp2.setBounds(700, 260, 150, 50); // <=== position of panel3
 		sp2.setBorder(BorderFactory.createTitledBorder("Condition")); // border
 
 		// call the following methods so that they will
@@ -143,7 +145,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		newGame.setBounds(500, 10, 100, 40);
 		newGame.addActionListener(this);
 
-		// the help wiondow text.
+		// the help window text.
 		text1 = new JTextArea();
 		
 		sp1.add(py1);
@@ -162,6 +164,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		f.add(sp1);
 		f.add(sp2);
 		f.add(sp3);
+		
+		initGame = true;
 	}
 
 	/**
@@ -169,8 +173,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	 * playing
 	 */
 	private void blackFlip() {
-		ImageIcon onBlack = new ImageIcon("onBlack.png");
-
+		ImageIcon onBlack = new ImageIcon("images/onBlack.png");
+		//System.out.println("black flip");
 		for (int i = 0; i <= 18; i++) {
 			for (int j = 0; j <= 18; j++) {
 				if (theBoard.slotAvaliable(i, j)) {
@@ -185,8 +189,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	 * playing
 	 */
 	private void whiteFlip() {
-		ImageIcon onWhite = new ImageIcon("onWhite.png");
-
+		ImageIcon onWhite = new ImageIcon("images/onWhite.png");
+		//System.out.println("white flip");
 		for (int i = 0; i <= 18; i++) {
 			for (int j = 0; j <= 18; j++) {
 				if (theBoard.slotAvaliable(i, j)) {
@@ -204,44 +208,56 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		Stone b = new Stone("black");
 		Stone a = new Stone("white");
 		
-    	Icon normal = new ImageIcon("emptyNorm.png");
+    	Icon normal = new ImageIcon("images/emptyNorm.png");
     	
     	// menu setting
 
-    			// help button pops the help window
-    			if (e.getSource() == item1)
-    			{
-    	        	// automatically resize window (use instead of setSize)
-    	        	fHelp.setVisible(true);
-    	        	
-    	        	text1.setEditable(false);
+		// help button pops the help window
+		if (e.getSource() == item1)
+		{
+			// automatically resize window (use instead of setSize)
+			fHelp.setVisible(true);
+			
+			text1.setEditable(false);
 
-    	        	// the help message
-    	        	text1.setText("Gomoku is basically a enlarged 'tic tac toe'." +
-    	        				"\n" +"Get five in a row(verticle or horizontal) to win!");
-    	        	
-    	        	fHelp.add(text1);
-    	         	fHelp.pack();
-    	         	fHelp.setLocationRelativeTo(null);
-    			}    	
-    			
-    			// Quit button
-    			if (e.getSource() == item2)
-    			{
-    				System.exit(0);
-    			}
+			// the help message
+			text1.setText("Gomoku is basically a enlarged 'tic tac toe'." +
+						"\n" +"Get five in a row(vertical or horizontal or diagonal) to win!");
+			
+			fHelp.add(text1);
+			fHelp.pack();
+			fHelp.setLocationRelativeTo(null);
+		}    	
+		
+		// Quit button
+		if (e.getSource() == item2)
+		{
+			System.exit(0);
+		}
 		
 		// if new Game was pressed 
 		if (e.getSource() == newGame)
 		{
+			//System.out.println("==new game==");
 			// reset the board panel
 			theBoard = new Board();
 			
 			// black starts
 			declareWin.setText("Black Turn");
-			py1.setText("Player1");
-			py2.setText("Player2");
+			if(name1.getText().isEmpty())
+			{
+				py1.setText("player1");
+			}
+			else
+				py1.setText(name1.getText());
+			if(name2.getText().isEmpty())
+			{
+				py2.setText("player2");
+			}
+			else			
+				py2.setText(name2.getText());
 			
+			// set player name if given in the textfield
 			p1 = new Player(b,py1.getText());
 			p2 = new Player(a,py2.getText());
 			
@@ -255,6 +271,11 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 					boardButton[i][j].addActionListener(this);
 				}
 			}
+			if(initGame)
+			{
+				initGame = false;
+				newGame.doClick();
+			}
 		}
 		
 		// require name setting
@@ -266,25 +287,12 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 		
 		// detect whose turn so lay proper go on the location
 		// label show whose turn
-		ImageIcon blackOn = new ImageIcon("black.png");
-		ImageIcon whiteOn = new ImageIcon("white.png");
+		ImageIcon blackOn = new ImageIcon("images/black.png");
+		ImageIcon whiteOn = new ImageIcon("images/white.png");
 		
 		
-		// all these while no one is winning
-		if (declareWin.getText().equals("Black Turn"))
-		{
-			black = true;
-			white = false;
-		}
-		else
-		{
-			white = true;
-			black = false;
-		}
+
 		
-		
-		
-			
 		// after click, set the label to the opposite text
 		// the rollover of color is set based on color
 		// make sure there is no go there already(use slot available)
@@ -292,7 +300,21 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 
 		if(!theBoard.win(p1)&&!theBoard.win(p2))
 		{
-			
+
+			// all these while no one is winning
+			if (declareWin.getText().equals("Black Turn"))
+			{
+				black = true;
+				white = false;
+			}
+			else
+			{
+				white = true;
+				black = false;
+			}
+
+
+			//System.out.println("white: "+white+" black: "+black);
 			// black turn
 			if(black && !white)
 			{
@@ -410,7 +432,7 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	public void addButtonsToContentPanel() {
 
 		boardButton = new JButton[19][19];
-		Icon normal = new ImageIcon("emptyNorm.png");
+		Icon normal = new ImageIcon("images/emptyNorm.png");
 
 		for (int i = 0; i <= 18; i++) {
 			for (int j = 0; j <= 18; j++) {
@@ -426,8 +448,8 @@ public class Visual extends javax.swing.JFrame implements ActionListener {
 	 * the label.
 	 */
 	public void addLabelsToContentPanel() {
-		ImageIcon p1B = new ImageIcon("BlackIcon.png");
-		ImageIcon p2W = new ImageIcon("WhiteIcon.png");
+		ImageIcon p1B = new ImageIcon("images/BlackIcon.png");
+		ImageIcon p2W = new ImageIcon("images/WhiteIcon.png");
 
 		py1 = new JLabel("Player1", p1B, SwingConstants.LEFT);
 		py1.setToolTipText("type your own name");
